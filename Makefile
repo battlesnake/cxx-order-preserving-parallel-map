@@ -31,7 +31,12 @@ all: example
 clean:
 	rm -f -- *.oxx *.d example test.dat
 
-test: example test.dat
+test: test-order test-nocopy
+
+test-nocopy:
+	$(CXX) $(CXXFLAGS) -c -fsyntax-only NoCopy.cpp
+
+test-order: example test.dat
 	@echo ""
 	@echo "Serial / single-worker test for output ordering"
 	@time WORKERS=1 ./example < test.dat | sort -cn
